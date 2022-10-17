@@ -6,7 +6,7 @@ use crate::{benchmarks, RGBAPixel, bgr_to_yuv_f32};
 pub struct ConversionContext {}
 
 impl ConversionContext {
-    pub fn new(_width: usize, _height: usize) -> Self {
+    pub fn new(_width: u32, _height: u32) -> Self {
         Self {}
     }
 

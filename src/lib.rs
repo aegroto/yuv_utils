@@ -2,6 +2,8 @@
 extern crate test;
 
 pub mod iter_over_bgra;
+pub mod for_loop;
+pub mod split_parallel_for_loop;
 pub mod indices_less;
 
 mod benchmarking;

@@ -8,7 +8,7 @@ macro_rules! benchmarks {
             use super::ConversionContext;
 
             fn bench(bencher: &mut Bencher, width: usize, height: usize) {
-                let mut context = black_box(ConversionContext::new(width, height));
+                let mut context = black_box(ConversionContext::new(width as u32, height as u32));
 
                 let bgra_pixels = black_box(vec![0u8; width * height * 4]);
                 let mut y_pixels = black_box(vec![0u8; width * height]);

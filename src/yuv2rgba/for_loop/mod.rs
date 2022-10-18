@@ -1,12 +1,12 @@
 mod squared;
 mod vectorized;
 
-use crate::{Indicization, PixelOffset};
+use crate::{Indicization, PixelOrder};
 
 pub struct ConversionContext {
     width: u32,
     height: u32,
-    pixel_offset: PixelOffset,
+    pixel_order: PixelOrder,
     indicization: Indicization,
 }
 
@@ -15,13 +15,13 @@ impl ConversionContext {
         Self {
             width,
             height,
-            pixel_offset: PixelOffset::RGBA,
+            pixel_order: PixelOrder::RGBA,
             indicization: Indicization::Squared,
         }
     }
 
-    pub fn set_pixel_offset(&mut self, value: PixelOffset) {
-        self.pixel_offset = value;
+    pub fn set_pixel_order(&mut self, value: PixelOrder) {
+        self.pixel_order = value;
     }
 
     pub fn set_indicization(&mut self, value: Indicization) {
@@ -39,15 +39,24 @@ impl ConversionContext {
             Indicization::Vectorized => {
                 vectorized::convert(y_pixels, u_pixels, v_pixels, rgba_pixels)
             }
-            Indicization::Squared => squared::convert(
-                self.width as usize,
-                self.height as usize,
-                self.pixel_offset,
-                y_pixels,
-                u_pixels,
-                v_pixels,
-                rgba_pixels,
-            ),
+            Indicization::Squared => match self.pixel_order {
+                PixelOrder::RGBA => squared::convert_to_rgba(
+                    self.width as usize,
+                    self.height as usize,
+                    y_pixels,
+                    u_pixels,
+                    v_pixels,
+                    rgba_pixels,
+                ),
+                PixelOrder::BGRA => squared::convert_to_bgra(
+                    self.width as usize,
+                    self.height as usize,
+                    y_pixels,
+                    u_pixels,
+                    v_pixels,
+                    rgba_pixels,
+                ),
+            },
         }
     }
 }

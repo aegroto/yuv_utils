@@ -1,9 +1,8 @@
-use crate::{yuv2rgba::yuv_to_bgr, PixelOffset};
+use crate::yuv2rgba::{load_yuv_squared, write_rgba_pixel, yuv_to_bgr, write_bgra_pixel};
 
-pub fn convert(
+pub fn convert_to_rgba(
     width: usize,
     height: usize,
-    pixel_offset: PixelOffset,
     y_pixels: &[u8],
     u_pixels: &[u8],
     v_pixels: &[u8],
@@ -12,17 +11,29 @@ pub fn convert(
     for row in 0..height {
         for column in 0..width {
             let i = row * width + column;
-
-            let y = y_pixels[i];
-            let u = u_pixels[(row / 2) * width / 2 + (column / 2)];
-            let v = v_pixels[(row / 2) * width / 2 + (column / 2)];
-
+            let uv_i = (row / 2) * width / 2 + (column / 2);
+            let (y, u, v) = load_yuv_squared(y_pixels, u_pixels, v_pixels, i, uv_i);
             let (b, g, r) = yuv_to_bgr(y, u, v);
+            write_rgba_pixel(rgba_pixels, i, r, g, b);
+        }
+    }
+}
 
-            rgba_pixels[i * 4 + pixel_offset.r] = r;
-            rgba_pixels[i * 4 + pixel_offset.g] = g;
-            rgba_pixels[i * 4 + pixel_offset.b] = b;
-            rgba_pixels[i * 4 + pixel_offset.a] = 255;
+pub fn convert_to_bgra(
+    width: usize,
+    height: usize,
+    y_pixels: &[u8],
+    u_pixels: &[u8],
+    v_pixels: &[u8],
+    rgba_pixels: &mut [u8],
+) {
+    for row in 0..height {
+        for column in 0..width {
+            let i = row * width + column;
+            let uv_i = (row / 2) * width / 2 + (column / 2);
+            let (y, u, v) = load_yuv_squared(y_pixels, u_pixels, v_pixels, i, uv_i);
+            let (b, g, r) = yuv_to_bgr(y, u, v);
+            write_bgra_pixel(rgba_pixels, i, r, g, b);
         }
     }
 }
@@ -31,9 +42,9 @@ pub fn convert(
 mod tests {
     use test::{black_box, Bencher};
 
-    use crate::{PixelOffset, bench_cases};
+    use crate::bench_cases;
 
-    use super::convert;
+    use super::convert_to_rgba;
 
     fn bench(bencher: &mut Bencher, width: usize, height: usize) {
         let y_pixels = black_box(vec![0u8; width * height]);
@@ -42,10 +53,9 @@ mod tests {
         let mut bgra_pixels = black_box(vec![0u8; width * height * 4]);
 
         bencher.iter(|| {
-            convert(
+            convert_to_rgba(
                 width,
                 height,
-                PixelOffset::RGBA,
                 &y_pixels,
                 &u_pixels,
                 &v_pixels,
@@ -56,5 +66,3 @@ mod tests {
 
     bench_cases!();
 }
-
-

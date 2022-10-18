@@ -1,4 +1,5 @@
 pub mod for_loop;
+mod benchmarking;
 
 pub fn yuv_to_bgr(y: u8, u: u8, v: u8) -> (u8, u8, u8) {
     let y: f64 = y as f64;

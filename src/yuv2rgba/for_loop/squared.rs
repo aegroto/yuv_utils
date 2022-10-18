@@ -26,3 +26,35 @@ pub fn convert(
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use test::{black_box, Bencher};
+
+    use crate::{PixelOffset, bench_cases};
+
+    use super::convert;
+
+    fn bench(bencher: &mut Bencher, width: usize, height: usize) {
+        let y_pixels = black_box(vec![0u8; width * height]);
+        let u_pixels = black_box(vec![0u8; (width * height) / 4]);
+        let v_pixels = black_box(vec![0u8; (width * height) / 4]);
+        let mut bgra_pixels = black_box(vec![0u8; width * height * 4]);
+
+        bencher.iter(|| {
+            convert(
+                width,
+                height,
+                PixelOffset::RGBA,
+                &y_pixels,
+                &u_pixels,
+                &v_pixels,
+                &mut bgra_pixels,
+            );
+        })
+    }
+
+    bench_cases!();
+}
+
+

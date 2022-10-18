@@ -32,7 +32,7 @@ impl ConversionContext {
         for (i, uv_i, rgba_i) in indices {
             let (y, u, v) = load_yuv_squared(y_pixels, u_pixels, v_pixels, *i, *uv_i);
             let (b, g, r) = yuv_to_bgr(y, u, v);
-            write_rgba_pixel(rgba_pixels, *rgba_i, r, g, b);
+            write_bgra_pixel(rgba_pixels, *rgba_i, r, g, b);
         }
     }
 }

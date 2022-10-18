@@ -4,7 +4,7 @@ macro_rules! yuv2rgba_benchmarks {
         #[cfg(test)]
         mod tests {
             use super::ConversionContext;
-            use crate::from_yuv::YUVToRGBAConversionContext;
+            use $crate::from_yuv::YUVToRGBAConversionContext;
             use test::{black_box, Bencher};
 
             fn bench(bencher: &mut Bencher, width: usize, height: usize) {

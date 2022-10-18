@@ -1,4 +1,5 @@
 pub mod yuv2rgba;
+pub mod yuv2bgra;
 
 pub trait YUVToRGBAConversionContext {
     fn new(width: u32, height: u32) -> Self; 

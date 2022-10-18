@@ -2,9 +2,10 @@
 extern crate test;
 
 pub(crate) mod common;
+pub(crate) mod benchmarking;
 
 pub mod bgra2yuv;
-pub mod yuv2rgba;
+pub mod from_yuv;
 
 #[derive(Clone, Copy)]
 pub enum PixelOrder {

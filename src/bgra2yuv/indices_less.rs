@@ -2,7 +2,7 @@ use itertools::{izip, Itertools};
 use rayon::prelude::*;
 
 use super::{bgr_to_yuv_f32, BGRAPixel};
-use crate::benchmarks;
+use crate::bgra2yuv_benchmarks;
 
 pub struct ConversionContext {}
 
@@ -57,4 +57,4 @@ impl ConversionContext {
     }
 }
 
-benchmarks!();
+bgra2yuv_benchmarks!();

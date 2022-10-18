@@ -1,11 +1,10 @@
 #[macro_export]
-macro_rules! benchmarks {
+macro_rules! bgra2yuv_benchmarks {
     () => {
         #[cfg(test)]
         mod tests {
-            use test::{black_box, Bencher};
-
             use super::ConversionContext;
+            use test::{black_box, Bencher};
 
             fn bench(bencher: &mut Bencher, width: usize, height: usize) {
                 let mut context = black_box(ConversionContext::new(width as u32, height as u32));

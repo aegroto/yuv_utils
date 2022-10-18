@@ -3,8 +3,6 @@ pub mod for_loop;
 pub mod split_parallel_for_loop;
 pub mod indices_less;
 
-mod benchmarking;
-
 pub type BGRAPixel<'a> = (&'a u8, &'a u8, &'a u8, &'a u8);
 
 pub fn bgr_to_yuv_f32(b: u8, g: u8, r: u8) -> (f32, f32, f32) {

@@ -1,6 +1,8 @@
 #![feature(test)]
 extern crate test;
 
+pub(crate) mod common;
+
 pub mod bgra2yuv;
 pub mod yuv2rgba;
 

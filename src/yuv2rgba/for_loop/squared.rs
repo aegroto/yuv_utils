@@ -1,16 +1,16 @@
-use crate::common::*;
+use crate::{common::*, yuv2rgba::YUVToRGBAConversionContext};
 
 pub struct ConversionContext {
     width: u32,
     height: u32,
 }
 
-impl ConversionContext {
-    pub fn new(width: u32, height: u32) -> Self {
+impl YUVToRGBAConversionContext for ConversionContext {
+    fn new(width: u32, height: u32) -> Self {
         Self { width, height }
     }
 
-    pub fn convert(
+    fn convert(
         &mut self,
         y_pixels: &[u8],
         u_pixels: &[u8],
@@ -35,7 +35,7 @@ impl ConversionContext {
 mod tests {
     use test::{black_box, Bencher};
 
-    use crate::bench_cases;
+    use crate::{bench_cases, yuv2rgba::YUVToRGBAConversionContext};
 
     use super::ConversionContext;
 

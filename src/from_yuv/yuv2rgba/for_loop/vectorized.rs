@@ -1,4 +1,4 @@
-use crate::{common::*, from_yuv::YUVToRGBAConversionContext};
+use crate::{common::*, from_yuv::YUVToRGBAConversionContext, yuv2rgba_benchmarks};
 
 pub struct ConversionContext {
     width: u32,
@@ -25,3 +25,5 @@ impl YUVToRGBAConversionContext for ConversionContext {
         }
     }
 }
+
+yuv2rgba_benchmarks!();

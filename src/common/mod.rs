@@ -21,9 +21,9 @@ pub fn write_rgba_pixel(rgba_pixels: &mut [u8], i: usize, r: u8, g: u8, b: u8) {
 
 #[inline]
 pub fn write_bgra_pixel(rgba_pixels: &mut [u8], i: usize, r: u8, g: u8, b: u8) {
-    rgba_pixels[i * 4 + 2] = r;
-    rgba_pixels[i * 4 + 1] = g;
     rgba_pixels[i * 4] = b;
+    rgba_pixels[i * 4 + 1] = g;
+    rgba_pixels[i * 4 + 2] = r;
     rgba_pixels[i * 4 + 3] = 255;
 }
 

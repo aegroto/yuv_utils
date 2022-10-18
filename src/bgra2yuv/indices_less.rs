@@ -1,7 +1,8 @@
 use itertools::{izip, Itertools};
 use rayon::prelude::*;
 
-use crate::{benchmarks, RGBAPixel, bgr_to_yuv_f32};
+use super::{bgr_to_yuv_f32, BGRAPixel};
+use crate::benchmarks;
 
 pub struct ConversionContext {}
 
@@ -24,8 +25,8 @@ impl ConversionContext {
         let bgra_iter =
             bgra_pixels
                 .iter()
-                .tuples::<RGBAPixel>()
-                .tuples::<(RGBAPixel, RGBAPixel, RGBAPixel, RGBAPixel)>();
+                .tuples::<BGRAPixel>()
+                .tuples::<(BGRAPixel, BGRAPixel, BGRAPixel, BGRAPixel)>();
 
         let y_iter = y_pixels
             .iter_mut()

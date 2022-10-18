@@ -1,23 +1,24 @@
 #![feature(test)]
 extern crate test;
 
-pub mod iter_over_bgra;
-pub mod for_loop;
-pub mod split_parallel_for_loop;
-pub mod indices_less;
+pub mod bgra2yuv;
+pub mod yuv2rgba;
 
-mod benchmarking;
+#[derive(Clone, Copy)]
+pub struct PixelOffset {
+    pub r: usize,
+    pub g: usize,
+    pub b: usize,
+    pub a: usize,
+}
 
-pub type RGBAPixel<'a> = (&'a u8, &'a u8, &'a u8, &'a u8);
+impl PixelOffset {
+    pub const RGBA: Self = Self { r: 0, g: 1, b: 2, a: 3 };
+    pub const BGRA: Self = Self { r: 2, g: 1, b: 0, a: 3 };
+}
 
-pub fn bgr_to_yuv_f32(b: u8, g: u8, r: u8) -> (f32, f32, f32) {
-    let r = r as f32;
-    let g = g as f32;
-    let b = b as f32;
-
-    let y = r * 0.29900 + g * 0.58700 + b * 0.11400;
-    let u = (r * -0.16874 + g * -0.33126 + b * 0.50000) + 128.0;
-    let v = (r * 0.50000 + g * -0.41869 + b * -0.08131) + 128.0;
-
-    (y, u, v)
+#[derive(Clone, Copy)]
+pub enum Indicization {
+    Vectorized,
+    Squared
 }

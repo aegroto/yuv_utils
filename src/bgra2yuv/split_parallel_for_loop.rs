@@ -1,7 +1,8 @@
 use itertools::izip;
 use rayon::prelude::*;
 
-use crate::{benchmarks, bgr_to_yuv_f32};
+use crate::{benchmarks};
+use super::bgr_to_yuv_f32;
 
 pub struct ConversionContext { 
     chunks_count: usize
